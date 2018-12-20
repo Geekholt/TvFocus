@@ -1,53 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="40dp">
+    android:layout_height="200dp"
+    android:layout_margin="20dp"
+    android:padding="8dp"
+    android:background="@drawable/bg_center_item"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/txt_right"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_focus"
+            android:background="@drawable/bg_normal_item"
             android:focusable="true" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="40dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_focus"
+            android:background="@drawable/bg_normal_item"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_normal_item"
             android:focusable="true" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-
-        android:layout_height="0dp"
-        android:layout_marginTop="40dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bg_focus"
-            android:focusable="true" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_focus"
-            android:focusable="true" />
-    </LinearLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/txt_right"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/bg_normal_item"
+        android:focusable="true" />
+</RelativeLayout>
