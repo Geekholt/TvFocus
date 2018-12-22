@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.geekholt.tvfocusdemo.R;
 import com.geekholt.tvfocusdemo.viewholder.CenterViewHolder;
-import com.geekholt.tvfocusdemo.viewholder.LeftViewHolder;
+
 
 
 /**
@@ -33,7 +33,7 @@ public class CenterRvAdapter extends RecyclerView.Adapter<CenterViewHolder> {
 
     @Override
     public void onBindViewHolder(CenterViewHolder holder, int position) {
-
+        holder.bindView(position);
     }
 
 
