@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 此适配值的文件，针对 720P -->
+
+
+    <!-- 谨记：一定要手动添加以下值 -->
+
+
+    <!--
+         以下为常规适配值的需要，属于DP系列，
+                注意点： 1： 一定要按照有序的方式进行放置  ..... [升序]
+           2: 取名必须为：如果是 正值，则为： dp_X，
+                                                                  如果是负值，则为 : dp_fX
+                      [X表示像素点值]
+
+    -->
+
+
+    <!--购物车列表-->
+    <dimen name="newcart_item_hint_width">97dip</dimen>
+    <dimen name="newcart_item_hint_height">115dip</dimen>
+    <dimen name="ytm_shop_cart_item_card_width">252dip</dimen>
+    <dimen name="ytm_shop_cart_item_card_height">350dip</dimen>
+    <dimen name="newcart_item_background_padding_left">0dip</dimen>
+    <dimen name="newcart_item_background_padding_top">0dip</dimen>
+    <dimen name="newcart_item_background_padding_right">0dip</dimen>
+    <dimen name="newcart_item_background_padding_bottom">0dip</dimen>
+
+    <!--购物车组标识选中的空隙-->
+    <dimen name="ytm_shop_cart_hint_focus_padding_left">4dip</dimen>
+    <dimen name="ytm_shop_cart_hint_focus_padding_top">5dip</dimen>
+    <dimen name="ytm_shop_cart_hint_focus_padding_right">3dip</dimen>
+    <dimen name="ytm_shop_cart_hint_focus_padding_bottom">3dip</dimen>
+
+    <!--购物车组标识文字的大小-->
+    <dimen name="ytm_shop_cart_item_hint_text_width">67dip</dimen>
+    <dimen name="ytm_shop_cart_item_hint_text_height">83dip</dimen>
+    <dimen name="ytm_shop_cart_item_hint_textSize">18sp</dimen>
+    <!--购物车列表的组标识内部的空隔-->
+    <dimen name="ytm_shop_cart_item_hint_padding_left">26dip</dimen>
+    <dimen name="ytm_shop_cart_item_hint_padding_top">32dip</dimen>
+    <dimen name="ytm_shop_cart_item_hint_padding_right">8dip</dimen>
+    <dimen name="ytm_shop_cart_item_hint_padding_bottom">0dip</dimen>
+
+    <dimen name="ytm_shop_cart_item_padding_right">12dip</dimen>
+    <dimen name="ytm_shop_cart_item_seller_name_text_size">24sp</dimen>
+    <dimen name="ytm_shop_cart_item_infor_card_width">240dip</dimen>
+    <dimen name="ytm_shop_cart_item_infor_card_height">317dip</dimen>
+    <dimen name="ytm_shop_cart_item_infor_selected_icon_padding">18dip</dimen>
+    <dimen name="ytm_shop_cart_item_infor_detail_height">104dip</dimen>
+    <dimen name="ytm_shop_cart_item_infor_detail_padding">12dip</dimen>
+    <dimen name="ytm_shop_cart_item_infor_detail_margin_bottom">18dip</dimen>
+    <dimen name="ytm_shop_cart_item_infor_detail_name_size">20sp</dimen>
+    <dimen name="ytm_shop_cart_item_infor_detail_sku_size">18sp</dimen>
+    <dimen name="ytm_shop_cart_item_infor_detail_extra_size">16sp</dimen>
+    <dimen name="ytm_shop_cart_item_infor_detail_price_size">30sp</dimen>
+
+    <!--购物车商品选中的空隙-->
+    <dimen name="ytm_shop_cart_item_focus_padding_left">5px</dimen>
+    <dimen name="ytm_shop_cart_item_focus_padding_top">1px</dimen>
+    <dimen name="ytm_shop_cart_item_focus_padding_right">6px</dimen>
+    <dimen name="ytm_shop_cart_item_focus_padding_bottom">8px</dimen>
+
+    <dimen name="ytm_shop_cart_empty_text_size_1">28.7sp</dimen>
+    <dimen name="ytm_shop_cart_empty_text_size_2">22.7sp</dimen>
+
+    <dimen name="ytm_shop_cart_list_height">427dip</dimen>
+    <dimen name="ytm_shop_cart_account_width">456dip</dimen>
+    <dimen name="ytm_shop_cart_account_height">72dip</dimen>
+
+    <dimen name="ytm_shop_cart_item_controller_height">114dip</dimen>
+    <dimen name="ytm_shop_cart_item_controller_sub_height">60dip</dimen>
+    <dimen name="ytm_shop_cart_item_controller_checked_btn_height">54dip</dimen>
+
+    <!--结算Focus框的空隙-->
+    <dimen name="ytm_shop_cart_item_account_padding_left">1px</dimen>
+    <dimen name="ytm_shop_cart_item_account_padding_top">1px</dimen>
+</resources>

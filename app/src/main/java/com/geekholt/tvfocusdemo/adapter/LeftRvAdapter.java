@@ -32,7 +32,7 @@ public class LeftRvAdapter extends RecyclerView.Adapter<LeftViewHolder> {
 
     @Override
     public void onBindViewHolder(LeftViewHolder holder, int position) {
-
+        holder.bindView(position);
     }
 
 

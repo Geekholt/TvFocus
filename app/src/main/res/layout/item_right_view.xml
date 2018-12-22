@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
-    android:layout_margin="12dp"
+    android:layout_height="@dimen/dp_64"
+    android:layout_margin="@dimen/dp_12"
     android:background="@drawable/bg_right_item"
     android:gravity="center"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="@dimen/dp_8">
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_100"
         android:background="@drawable/bg_normal_item"
         android:focusable="true"
         android:src="@drawable/ic_reduce"
         android:tint="#ffffff" />
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="8dp"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_100"
+        android:layout_marginLeft="@dimen/dp_8"
         android:background="@drawable/bg_normal_item"
         android:focusable="true"
         android:src="@drawable/ic_add"

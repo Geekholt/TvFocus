@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- common color -->
+    <color name="ytbv_black">#000000</color>
+    <color name="ytbv_havetab_black">#0d0222</color>
+    <color name="ytbv_white">#FFFFFF</color>
+    <color name="ytbv_afad7a00">#afad7a00</color>
+    <color name="ytbv_blue">#0088CC</color>
+    <color name="ytbv_gray">#888888</color>
+    <color name="ytbv_red">#ff0000</color>
+    <color name="ytbv_orange">#ff7200</color> 
+    <color name="ytbv_background">#e4e6e5</color> 
+    <color name="ytbv_global_background">#FFF5F5F5</color>
+    <color name="ytbv_K_black_light_6">#FFE5E5E5</color>
+    <color name="ytbv_transparent">#00000000</color>
+    <color name="ytbv_dialog_second_bg">#7F000000</color>
+    <color name="ytbv_txt_shade">#ccffffff</color>
+    <color name="ytbv_title">#ffffff</color>
+    <color name="ytbv_unfocus_text_color">#80000000</color>
+    <color name="ytbv_button_normal">#7e4821</color>
+    <color name="ytbv_button_focus">#ff7e04</color>
+    <color name="ytbv_dialog_layout_bg">#d2d2d2</color>
+    <color name="ytbv_80_white">#CCFFFFFF</color>
+    <color name="ytbv_shadow_color_80">#cc000000</color>
+    <color name="ytbv_shadow_color_50">#80000000</color>
+    <color name="ytbv_shadow_color_90">#E5000000</color>
+    <color name="ytbv_shadow_color_95">#ED000000</color>
+    <color name="ytm_858585">#858585</color>
+
+
+    <color name="color_black_70">#b3000000</color> <!-- 70%黑 -->
+    <color name="color_black_30">#4d000000</color> <!-- 70%黑 -->
+    <color name="color_black_20">#33000000</color> <!-- 20%黑 -->
+
+    <color name="color_black_40">#66000000</color> <!-- 40%黑 -->
+    <color name="color_black_80">#cd000000</color> <!-- 80%黑 -->
+    <color name="color_transparent">#00000000</color> <!-- 透明 -->
+    <color name="color_unfocus_white">#e6646464</color> <!-- 透明 -->
+    <color name="color_white_bg">#00ffffff</color> <!-- 透明 -->
+    <color name="color_white_60">#60FFFFFF</color>
+    <color name="color_202020">#202020</color>
+
+    <color name="ytbv_color_rebate">#ff3333</color>
+
+
+    <color name="new_detail_payment_time_bg">#e54c2405</color>
+</resources>
