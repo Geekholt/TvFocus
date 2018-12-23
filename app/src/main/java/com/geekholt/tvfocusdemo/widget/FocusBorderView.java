@@ -113,19 +113,19 @@ public class FocusBorderView extends FrameLayout {
 
     @Override
     public View focusSearch(View focused, int direction) {
-        View findFocus = FocusFinder.getInstance().findNextFocus(this, focused, direction);
+        View nextFocus = FocusFinder.getInstance().findNextFocus(this, focused, direction);
         //根据原生焦点流程默认找到的view，如果该方向上有可聚焦的view则找到该view
         //如果没有则会调用viewgroup的focusSearch方法，找到最近的另一个view或viewgroup
-        View nextFocus = super.focusSearch(focused, direction);
-        if (findFocus == null) {
+        View realNextFocus = super.focusSearch(focused, direction);
+        if (nextFocus == null) {
             //当前focusBorderView内，在direction方向上已经没有可聚焦的view，说明焦点将进入另一个viewgroup
-            if (nextFocus != null) {
+            if (realNextFocus != null) {
                 focusLeave();
             } else {
-                nextFocus = focused;
+                realNextFocus = focused;
             }
         }
-        return nextFocus;
+        return realNextFocus;
     }
 
 
