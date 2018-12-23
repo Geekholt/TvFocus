@@ -101,6 +101,8 @@ public class TvRecyclerView extends RecyclerView {
                 mSelectedItemOffsetEnd = mSelectedItemOffsetStart;
             }
         }
+        Loger.i("mSelectedItemOffsetStart = " + mSelectedItemOffsetStart);
+        Loger.i("mSelectedItemOffsetEnd = " + mSelectedItemOffsetEnd);
         super.requestChildFocus(child, focused);
     }
 
@@ -156,6 +158,8 @@ public class TvRecyclerView extends RecyclerView {
 
 
         if (dx != 0 || dy != 0) {
+            Loger.i("dx = " + dx);
+            Loger.i("dy = " + dy);
             if (immediate) {
                 scrollBy(dx, dy);
             } else {

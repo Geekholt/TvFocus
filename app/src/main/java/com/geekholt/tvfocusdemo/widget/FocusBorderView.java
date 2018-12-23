@@ -108,7 +108,7 @@ public class FocusBorderView extends FrameLayout {
         focusBorderImg = new ImageView(context);
         focusBorderImg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.good_bac_focus_select));
         this.addView(focusBorderImg);
-        focusBorderImg.setVisibility(GONE);
+        focusBorderImg.setVisibility(INVISIBLE);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class FocusBorderView extends FrameLayout {
      * 自身或者子view存在焦点
      */
     public void focusEnter() {
-        if (focusBorderImg != null && focusBorderImg.getVisibility() == GONE) {
+        if (focusBorderImg != null && focusBorderImg.getVisibility() == INVISIBLE) {
             Loger.i("focusEnter");
             focusBorderImg.setVisibility(VISIBLE);
             animator.start();
@@ -164,7 +164,7 @@ public class FocusBorderView extends FrameLayout {
     public void focusLeave() {
         if (focusBorderImg != null && focusBorderImg.getVisibility() == VISIBLE) {
             Loger.i("focusLeave");
-            focusBorderImg.setVisibility(GONE);
+            focusBorderImg.setVisibility(INVISIBLE);
             animator.cancel();
         }
     }
