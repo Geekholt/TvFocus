@@ -1,9 +1,12 @@
 package com.geekholt.tvfocusdemo.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.IdRes;
 import android.util.AttributeSet;
 import android.view.FocusFinder;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -21,6 +24,7 @@ import com.geekholt.tvfocusdemo.util.Loger;
  * @Desc：
  */
 public class FocusBorderView extends FrameLayout {
+    private static final String TAG = "FocusBorderView";
     private Context context;
     private ImageView focusBorderImg;
     //borderview动画
@@ -29,31 +33,31 @@ public class FocusBorderView extends FrameLayout {
     private View customRootView;
 
     //用户自定义的xml中的viewGroup与borderview的间距
-    private int margin = 8;
+    private int borderMargin;
     //borderview样式
-    private int drawableRes;
+    private Drawable borderDrawableRes;
     //指定默认聚焦的id
-    private int specialViewId;
+    private int specifiedViewId;
 
     public FocusBorderView(Context context) {
-        super(context);
-        this.context = context;
-        initView();
+        this(context, null);
     }
 
     public FocusBorderView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        this.context = context;
-        initView();
+        this(context, attrs, 0);
     }
 
     public FocusBorderView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
-        initView();
+        initView(context, attrs, defStyle);
     }
 
-    public void initView() {
+    public void initView(Context context, AttributeSet attrs, int defStyle) {
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FocusBorderView, defStyle, 0);
+        borderMargin = a.getDimensionPixelOffset(R.styleable.FocusBorderView_borderview_margin, 0);
+        borderDrawableRes = a.getDrawable(R.styleable.FocusBorderView_borderview_drawable_res);
+        specifiedViewId = a.getResourceId(R.styleable.FocusBorderView_specified_focus_id, 0);
         setFocusable(true);
         addFocusBorder();
         animator = new FocusValueAnimator(this);
@@ -62,11 +66,7 @@ public class FocusBorderView extends FrameLayout {
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
                 if (isFocused()) {
                     //找到用户指定focusBorderview内默认聚焦的view
-                    View specifiedView = focusSpecifiedView(R.id.view4);
-                    if (specifiedView != null) {
-                        specifiedView.requestFocus();
-                        Loger.i("special view focus" + specifiedView.toString());
-                    }
+                    focusSpecifiedView(specifiedViewId);
                 }
                 //判断是否自身被聚焦或者存在子view被聚焦
                 if (isFocused() || getFocusedChild() != null) {
@@ -92,7 +92,7 @@ public class FocusBorderView extends FrameLayout {
             customRootView = getChildAt(1);
             if (customRootView instanceof ViewGroup) {
                 FrameLayout.LayoutParams lp = (LayoutParams) customRootView.getLayoutParams();
-                lp.setMargins(margin, margin, margin, margin);
+                lp.setMargins(borderMargin, borderMargin, borderMargin, borderMargin);
             } else {
                 throw new RuntimeException("The FocusBorderView must container one and the only one ViewGroup");
             }
@@ -106,7 +106,7 @@ public class FocusBorderView extends FrameLayout {
      **/
     public void addFocusBorder() {
         focusBorderImg = new ImageView(context);
-        focusBorderImg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.good_bac_focus_select));
+        focusBorderImg.setBackgroundDrawable(borderDrawableRes);
         this.addView(focusBorderImg);
         focusBorderImg.setVisibility(INVISIBLE);
     }
@@ -139,12 +139,15 @@ public class FocusBorderView extends FrameLayout {
     /**
      * 聚焦到指定的view
      */
-    public View focusSpecifiedView(@IdRes int viewId) {
+    public void focusSpecifiedView(@IdRes int viewId) {
         View specifedView = null;
         if (customRootView != null) {
             specifedView = customRootView.findViewById(viewId);
+            if (specifedView != null) {
+                specifedView.requestFocus();
+                Loger.i("special view focus" + specifedView.toString());
+            }
         }
-        return specifedView;
     }
 
     /**

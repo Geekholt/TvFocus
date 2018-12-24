@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FocusBorderView">
+        <!--默认聚焦id-->
+        <attr name="specified_focus_id" format="reference" />
+        <!--borderview样式-->
+        <attr name="borderview_drawable_res" format="reference" />
+        <!--borderview间距-->
+        <attr name="borderview_margin" format="dimension" />
+    </declare-styleable>
+</resources>

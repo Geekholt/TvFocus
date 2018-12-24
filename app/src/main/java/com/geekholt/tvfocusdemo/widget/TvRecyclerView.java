@@ -107,6 +107,9 @@ public class TvRecyclerView extends RecyclerView {
     }
 
 
+    /**
+     * 通过该方法设置选中的item居中
+     * */
     @Override
     public boolean requestChildRectangleOnScreen(View child, Rect rect, boolean immediate) {
         final int parentLeft = getPaddingLeft();
