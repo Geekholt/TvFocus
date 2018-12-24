@@ -5,7 +5,9 @@
         <attr name="specified_focus_id" format="reference" />
         <!--borderview样式-->
         <attr name="borderview_drawable_res" format="reference" />
-        <!--borderview间距-->
-        <attr name="borderview_margin" format="dimension" />
+        <!--borderview高度-->
+        <attr name="borderview_height" format="dimension" />
+        <!--borderview宽度-->
+        <attr name="borderview_width" format="dimension" />
     </declare-styleable>
 </resources>

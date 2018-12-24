@@ -32,12 +32,14 @@ public class FocusBorderView extends FrameLayout {
 
     private View customRootView;
 
-    //用户自定义的xml中的viewGroup与borderview的间距
-    private int borderMargin;
     //borderview样式
     private Drawable borderDrawableRes;
     //指定默认聚焦的id
     private int specifiedViewId;
+    //borderview宽度
+    private float borderHeight;
+    //borderview高度
+    private float borderWidth;
 
     public FocusBorderView(Context context) {
         this(context, null);
@@ -55,9 +57,10 @@ public class FocusBorderView extends FrameLayout {
 
     public void initView(Context context, AttributeSet attrs, int defStyle) {
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FocusBorderView, defStyle, 0);
-        borderMargin = a.getDimensionPixelOffset(R.styleable.FocusBorderView_borderview_margin, 0);
         borderDrawableRes = a.getDrawable(R.styleable.FocusBorderView_borderview_drawable_res);
         specifiedViewId = a.getResourceId(R.styleable.FocusBorderView_specified_focus_id, 0);
+        borderHeight = a.getDimensionPixelOffset(R.styleable.FocusBorderView_borderview_height, 0);
+        borderWidth = a.getDimensionPixelOffset(R.styleable.FocusBorderView_borderview_width, 0);
         setFocusable(true);
         addFocusBorder();
         animator = new FocusValueAnimator(this);
@@ -91,8 +94,6 @@ public class FocusBorderView extends FrameLayout {
             //second view is the first viewGroup that was found in the customer xml
             customRootView = getChildAt(1);
             if (customRootView instanceof ViewGroup) {
-                FrameLayout.LayoutParams lp = (LayoutParams) customRootView.getLayoutParams();
-                lp.setMargins(borderMargin, borderMargin, borderMargin, borderMargin);
             } else {
                 throw new RuntimeException("The FocusBorderView must container one and the only one ViewGroup");
             }
@@ -101,11 +102,15 @@ public class FocusBorderView extends FrameLayout {
         }
     }
 
+
     /**
      * 添加borderview
      **/
     public void addFocusBorder() {
         focusBorderImg = new ImageView(context);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams((int) borderWidth, (int) borderHeight);
+        lp.gravity = Gravity.CENTER;
+        focusBorderImg.setLayoutParams(lp);
         focusBorderImg.setBackgroundDrawable(borderDrawableRes);
         this.addView(focusBorderImg);
         focusBorderImg.setVisibility(INVISIBLE);
