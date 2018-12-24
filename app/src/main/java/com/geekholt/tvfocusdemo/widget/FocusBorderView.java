@@ -2,6 +2,7 @@ package com.geekholt.tvfocusdemo.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IdRes;
 import android.util.AttributeSet;
@@ -106,7 +107,7 @@ public class FocusBorderView extends FrameLayout {
     /**
      * 添加borderview
      **/
-    public void addFocusBorder() {
+    private void addFocusBorder() {
         focusBorderImg = new ImageView(context);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams((int) borderWidth, (int) borderHeight);
         lp.gravity = Gravity.CENTER;
@@ -133,7 +134,6 @@ public class FocusBorderView extends FrameLayout {
         return realNextFocus;
     }
 
-
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -144,7 +144,7 @@ public class FocusBorderView extends FrameLayout {
     /**
      * 聚焦到指定的view
      */
-    public void focusSpecifiedView(@IdRes int viewId) {
+    private void focusSpecifiedView(@IdRes int viewId) {
         View specifedView = null;
         if (customRootView != null) {
             specifedView = customRootView.findViewById(viewId);
@@ -155,10 +155,16 @@ public class FocusBorderView extends FrameLayout {
         }
     }
 
+    @Override
+    public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
+        focusEnter();
+        return super.requestFocus(direction, previouslyFocusedRect);
+    }
+
     /**
      * 自身或者子view存在焦点
      */
-    public void focusEnter() {
+    private void focusEnter() {
         if (focusBorderImg != null && focusBorderImg.getVisibility() == INVISIBLE) {
             Loger.i("focusEnter");
             focusBorderImg.setVisibility(VISIBLE);
@@ -169,7 +175,7 @@ public class FocusBorderView extends FrameLayout {
     /**
      * 自身或者子view都不存在焦点
      */
-    public void focusLeave() {
+    private void focusLeave() {
         if (focusBorderImg != null && focusBorderImg.getVisibility() == VISIBLE) {
             Loger.i("focusLeave");
             focusBorderImg.setVisibility(INVISIBLE);

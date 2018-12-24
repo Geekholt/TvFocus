@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.geekholt.tvfocusdemo.R;
+import com.geekholt.tvfocusdemo.widget.FocusBorderView;
 
 /**
  * @author 吴灏腾
@@ -13,14 +14,19 @@ import com.geekholt.tvfocusdemo.R;
  */
 
 public class CenterViewHolder extends RecyclerView.ViewHolder {
+    private View itemView;
     private TextView numTxt;
 
     public CenterViewHolder(View itemView) {
         super(itemView);
+        this.itemView = itemView;
         numTxt = itemView.findViewById(R.id.txt_num);
     }
 
     public void bindView(int position) {
         numTxt.setText(String.valueOf(position));
+        if (position == 0) {
+            itemView.requestFocus();
+        }
     }
 }
