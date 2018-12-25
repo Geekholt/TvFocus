@@ -73,7 +73,7 @@ public class FocusBorderView extends FrameLayout {
                     focusSpecifiedView(specifiedViewId);
                 }
                 //判断是否自身被聚焦或者存在子view被聚焦
-                if (isFocused() || getFocusedChild() != null) {
+                if (hasFocus()) {
                     focusEnter();
                 } else {
                     focusLeave();
@@ -82,6 +82,7 @@ public class FocusBorderView extends FrameLayout {
         });
 
     }
+
 
     /**
      * 布局完之后，设置用户自定义的xml中的viewGroup与borderview的间距

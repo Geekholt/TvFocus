@@ -26,7 +26,7 @@ public class CenterViewHolder extends RecyclerView.ViewHolder {
     public void bindView(int position) {
         numTxt.setText(String.valueOf(position));
         if (position == 0) {
-            itemView.requestFocus();
+            //itemView.requestFocus();
         }
     }
 }
