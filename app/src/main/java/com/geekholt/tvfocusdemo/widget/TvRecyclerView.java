@@ -37,8 +37,8 @@ public class TvRecyclerView extends RecyclerView {
     private FocusGainListener mFocusGainListener;
     //最后一次聚焦的位置
     private int mLastFocusPosition = 0;
+    private View mLastFocusView = null;
 
-    private boolean isOut;
 
     public TvRecyclerView(Context context) {
         super(context);
@@ -69,24 +69,6 @@ public class TvRecyclerView extends RecyclerView {
         setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         setChildrenDrawingOrderEnabled(true);
         this.setFocusable(true);
-
-        getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
-            @Override
-            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                if (isOut) {
-                    if (hasFocus()) {
-                        if (mLastFocusPosition > 0) {
-                            LayoutManager layoutManager = getLayoutManager();
-                            View viewByPosition = layoutManager.findViewByPosition(mLastFocusPosition);
-                            if (viewByPosition != null) {
-                                viewByPosition.requestFocus();
-                                isOut = false;
-                            }
-                        }
-                    }
-                }
-            }
-        });
     }
 
 
@@ -95,23 +77,20 @@ public class TvRecyclerView extends RecyclerView {
      * <p>
      * root.addFocusables会遍历root的所有子view和孙view,然后调用addFocusable把isFocusable的view添加到focusables
      */
-  /*  @Override
+    @Override
     public void addFocusables(ArrayList<View> views, int direction, int focusableMode) {
         Loger.i("views = " + views);
-        views.clear();
-        View lastFocusView = getLayoutManager().findViewByPosition(mLastFocusPosition);
-        Loger.i("lastFocusView = " + lastFocusView + " mLastFocusPosition = " + mLastFocusPosition);
-        if (this.hasFocus() || lastFocusView == null) {
+        Loger.i("lastFocusView = " + mLastFocusView + " mLastFocusPosition = " + mLastFocusPosition);
+        if (this.hasFocus() || mLastFocusView == null) {
             //在recyclerview内部焦点切换
             super.addFocusables(views, direction, focusableMode);
-        } else if (lastFocusView.isFocusable()) {
-            //将当前的view放到Focusable views列表中，再次移入焦点时会取到该view,实现焦点记忆功能
-            views.add(lastFocusView);
-            Loger.i("views.add(currentFocusView)");
         } else {
-            super.addFocusables(views, direction, focusableMode);
+            //将当前的view放到Focusable views列表中，再次移入焦点时会取到该view,实现焦点记忆功能
+            views.add(getLayoutManager().findViewByPosition(mLastFocusPosition));
+            Loger.i("views.add(lastFocusView)");
         }
-    }*/
+    }
+
     @Override
     public View focusSearch(View focused, int direction) {
         View realNextFocus = super.focusSearch(focused, direction);
@@ -133,7 +112,6 @@ public class TvRecyclerView extends RecyclerView {
                         if (mFocusLostListener != null) {
                             mFocusLostListener.onFocusLost(focused, direction);
                         }
-                        isOut = true;
                         return realNextFocus;
                     } else {
                         return null;
@@ -147,13 +125,11 @@ public class TvRecyclerView extends RecyclerView {
                         if (mFocusLostListener != null) {
                             mFocusLostListener.onFocusLost(focused, direction);
                         }
-                        isOut = true;
                         return realNextFocus;
                     } else {
                         return null;
                     }
                 }
-
                 break;
             case FOCUS_UP:
                 if (nextFocus == null && !canScrollVertically(-1)) {
@@ -164,7 +140,6 @@ public class TvRecyclerView extends RecyclerView {
                         return null;
                     }
                 }
-
                 break;
             case FOCUS_DOWN:
                 if (nextFocus == null && !canScrollVertically(1)) {
@@ -179,7 +154,6 @@ public class TvRecyclerView extends RecyclerView {
         }
         return realNextFocus;
     }
-
 
     /**
      * 通过ViewParent#requestChildFocus通知父控件即将获取焦点
@@ -197,9 +171,11 @@ public class TvRecyclerView extends RecyclerView {
                     mFocusGainListener.onFocusGain(child, focused);
                 }
             }
+
             //执行过super.requestChildFocus之后hasFocus会变成true
             super.requestChildFocus(child, focused);
             //取得获得焦点的item的position
+            mLastFocusView = focused;
             mLastFocusPosition = getChildViewHolder(child).getAdapterPosition();
             Loger.i("focusPos = " + mLastFocusPosition);
 
@@ -213,7 +189,6 @@ public class TvRecyclerView extends RecyclerView {
         Loger.i("mSelectedItemOffsetStart = " + mSelectedItemOffsetStart);
         Loger.i("mSelectedItemOffsetEnd = " + mSelectedItemOffsetEnd);
     }
-
 
     /**
      * 通过该方法设置选中的item居中
