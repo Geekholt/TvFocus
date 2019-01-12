@@ -9,6 +9,7 @@
     android:padding="@dimen/dp_8">
 
     <ImageView
+        android:id="@+id/img_reduce"
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_100"
         android:background="@drawable/bg_normal_item"
@@ -17,6 +18,7 @@
         android:tint="#ffffff" />
 
     <ImageView
+        android:id="@+id/img_add"
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_100"
         android:layout_marginLeft="@dimen/dp_8"
