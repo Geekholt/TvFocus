@@ -15,7 +15,7 @@ import com.geekholt.tvfocusdemo.widget.V7LinearLayoutManager;
 public class MainActivity extends AppCompatActivity {
     TvRecyclerView leftRv;
     TvRecyclerView centerRv;
-    RecyclerView rightRv;
+    TvRecyclerView rightRv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
