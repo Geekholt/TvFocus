@@ -3,14 +3,12 @@ package com.geekholt.tvfocusdemo.widget;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.FocusFinder;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import com.geekholt.tvfocusdemo.util.Loger;
 
@@ -24,8 +22,6 @@ import java.util.ArrayList;
 public class TvRecyclerView extends RecyclerView {
     //焦点是否居中
     private boolean mSelectedItemCentered = true;
-    private int mSelectedItemOffsetStart = 0;
-    private int mSelectedItemOffsetEnd = 0;
 
     //是否可以纵向移出
     private boolean mCanFocusOutVertical = false;
@@ -178,89 +174,80 @@ public class TvRecyclerView extends RecyclerView {
             mLastFocusView = focused;
             mLastFocusPosition = getChildViewHolder(child).getAdapterPosition();
             Loger.i("focusPos = " + mLastFocusPosition);
-
-            //计算控制recyclerview 选中item的居中从参数
-            if (mSelectedItemCentered) {
-                mSelectedItemOffsetStart = !isVertical() ? (getFreeWidth() - child.getWidth()) : (getFreeHeight() - child.getHeight());
-                mSelectedItemOffsetStart /= 2;
-                mSelectedItemOffsetEnd = mSelectedItemOffsetStart;
-            }
         }
-        Loger.i("mSelectedItemOffsetStart = " + mSelectedItemOffsetStart);
-        Loger.i("mSelectedItemOffsetEnd = " + mSelectedItemOffsetEnd);
     }
 
     /**
      * 通过该方法设置选中的item居中
      * <p>
-     * 该方法能够确定在布局中滚动或者滑动时候，子item和parent之间的位置
-     * dy，dx的实际意义就是在滚动中下滑和左右滑动的距离
-     * 而这个值的确定会严重影响滑动的流畅程度
+     * 当ViewGroup的某个子View需要被定位在屏幕的某个矩形范围时，调用此方法。重载此方法的ViewGroup可确认以下几点：
+     * 1.子View将是ViewGroup里的直系子项
+     * 2.矩形将在子View的坐标体系中
+     * 重载此方法的ViewGroup应该支持以下几点：
+     * 1.若矩形已经是可见的，则没有东西会改变
+     * 2.为使矩形区域全部可见，视图将可以被滚动显示
+     * <p>
+     * 最终计算出的dy，dx的实际意义就是在滚动中下滑和左右滑动的距离
+     *
+     * @param child     发出请求的子View
+     * @param rect      子View坐标系内的矩形，即此子View希望在屏幕上的定位
+     * @param immediate 设为true，则禁止动画和平滑移动滚动条
+     * @return 进行了滚动操作的这个ViewGroup，是否处理此操作
      */
     @Override
     public boolean requestChildRectangleOnScreen(View child, Rect rect, boolean immediate) {
+        //计算控制recyclerview 选中item的居中从参数
+        int selectedItemOffsetStart = 0;
+        int selectedItemOffsetEnd = 0;
+        if (mSelectedItemCentered) {
+            selectedItemOffsetStart = !isVertical() ? (getFreeWidth() - child.getWidth()) : (getFreeHeight() - child.getHeight());
+            selectedItemOffsetStart /= 2;
+            selectedItemOffsetEnd = selectedItemOffsetStart;
+        }
+
+        Loger.i("selectedItemOffsetStart = " + selectedItemOffsetStart);
+        Loger.i("selectedItemOffsetEnd = " + selectedItemOffsetEnd);
         final int parentLeft = getPaddingLeft();
-        final int parentRight = getWidth() - getPaddingRight();
-
         final int parentTop = getPaddingTop();
+        final int parentRight = getWidth() - getPaddingRight();
         final int parentBottom = getHeight() - getPaddingBottom();
-
-        final int childLeft = child.getLeft() + rect.left;
-        final int childTop = child.getTop() + rect.top;
-
+        final int childLeft = child.getLeft() + rect.left - child.getScrollX();
+        final int childTop = child.getTop() + rect.top - child.getScrollY();
         final int childRight = childLeft + rect.width();
         final int childBottom = childTop + rect.height();
 
-        final int offScreenLeft = Math.min(0, childLeft - parentLeft - mSelectedItemOffsetStart);
-        final int offScreenRight = Math.max(0, childRight - parentRight + mSelectedItemOffsetEnd);
 
-        final int offScreenTop = Math.min(0, childTop - parentTop - mSelectedItemOffsetStart);
-        final int offScreenBottom = Math.max(0, childBottom - parentBottom + mSelectedItemOffsetEnd);
+        final int offScreenLeft = Math.min(0, childLeft - parentLeft - selectedItemOffsetStart);
+        final int offScreenRight = Math.max(0, childRight - parentRight + selectedItemOffsetEnd);
 
-
-        final boolean canScrollHorizontal = getLayoutManager().canScrollHorizontally();
-        final boolean canScrollVertical = getLayoutManager().canScrollVertically();
+        final int offScreenTop = Math.min(0, childTop - parentTop - selectedItemOffsetStart);
+        final int offScreenBottom = Math.max(0, childBottom - parentBottom + selectedItemOffsetEnd);
 
         // Favor the "start" layout direction over the end when bringing one side or the other
         // of a large rect into view. If we decide to bring in end because start is already
         // visible, limit the scroll such that start won't go out of bounds.
         final int dx;
-        if (canScrollHorizontal) {
-            if (ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL) {
-                dx = offScreenRight != 0 ? offScreenRight
-                        : Math.max(offScreenLeft, childRight - parentRight);
-            } else {
-                dx = offScreenLeft != 0 ? offScreenLeft
-                        : Math.min(childLeft - parentLeft, offScreenRight);
-            }
+        if (getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+            dx = offScreenRight != 0 ? offScreenRight
+                    : Math.max(offScreenLeft, childRight - parentRight);
         } else {
-            dx = 0;
+            dx = offScreenLeft != 0 ? offScreenLeft
+                    : Math.min(childLeft - parentLeft, offScreenRight);
         }
 
         // Favor bringing the top into view over the bottom. If top is already visible and
         // we should scroll to make bottom visible, make sure top does not go out of bounds.
-        final int dy;
-        if (canScrollVertical) {
-            dy = offScreenTop != 0 ? offScreenTop : Math.min(childTop - parentTop, offScreenBottom);
-        } else {
-            dy = 0;
-        }
-
+        final int dy = offScreenTop != 0 ? offScreenTop
+                : Math.min(childTop - parentTop, offScreenBottom);
 
         if (dx != 0 || dy != 0) {
-            Loger.i("dx = " + dx);
-            Loger.i("dy = " + dy);
             if (immediate) {
                 scrollBy(dx, dy);
             } else {
                 smoothScrollBy(dx, dy);
             }
-            // 重绘是为了选中item置顶，具体请参考getChildDrawingOrder方法
-            postInvalidate();
             return true;
         }
-
-
         return false;
     }
 
