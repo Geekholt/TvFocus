@@ -64,7 +64,6 @@ public class FocusBorderView extends FrameLayout {
         specifiedViewId = a.getResourceId(R.styleable.FocusBorderView_specified_focus_id, 0);
         borderHeight = a.getDimensionPixelOffset(R.styleable.FocusBorderView_borderview_height, 0);
         borderWidth = a.getDimensionPixelOffset(R.styleable.FocusBorderView_borderview_width, 0);
-        setFocusable(true);
         addFocusBorder();
         animator = new FocusValueAnimator(this);
 
@@ -76,10 +75,6 @@ public class FocusBorderView extends FrameLayout {
         onGlobalFocusChangeListener = new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                if (isFocused()) {
-                    //找到用户指定focusBorderview内默认聚焦的view
-                    focusSpecifiedView(specifiedViewId);
-                }
                 //判断是否自身被聚焦或者存在子view被聚焦
                 if (hasFocus()) {
                     focusEnter();
@@ -151,22 +146,29 @@ public class FocusBorderView extends FrameLayout {
 
     /**
      * 聚焦到指定的view
+     *
+     * @return 返回是否聚焦到指定的view
      */
-    private void focusSpecifiedView(@IdRes int viewId) {
+    private boolean focusSpecifiedView(@IdRes int viewId) {
         View specifedView = null;
         if (customRootView != null) {
             specifedView = customRootView.findViewById(viewId);
             if (specifedView != null) {
                 specifedView.requestFocus();
                 Loger.i("special view focus" + specifedView.toString());
+                return true;
             }
         }
+        return false;
     }
 
     @Override
     public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
-        focusEnter();
-        return super.requestFocus(direction, previouslyFocusedRect);
+        if (focusSpecifiedView(specifiedViewId)) {
+            return false;
+        } else {
+            return super.requestFocus(direction, previouslyFocusedRect);
+        }
     }
 
     /**
@@ -190,4 +192,5 @@ public class FocusBorderView extends FrameLayout {
             animator.cancel();
         }
     }
+
 }

@@ -62,29 +62,8 @@ public class TvRecyclerView extends RecyclerView {
          * afterDescendants：viewgroup只有当其子类控件不需要获取焦点时才获取焦点
          * blocksDescendants：viewgroup会覆盖子类控件而直接获得焦点
          * */
-        setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
-        setChildrenDrawingOrderEnabled(true);
+        setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
         this.setFocusable(true);
-    }
-
-
-    /**
-     * 实现焦点记忆的关键代码
-     * <p>
-     * root.addFocusables会遍历root的所有子view和孙view,然后调用addFocusable把isFocusable的view添加到focusables
-     */
-    @Override
-    public void addFocusables(ArrayList<View> views, int direction, int focusableMode) {
-        Loger.i("views = " + views);
-        Loger.i("lastFocusView = " + mLastFocusView + " mLastFocusPosition = " + mLastFocusPosition);
-        if (this.hasFocus() || mLastFocusView == null) {
-            //在recyclerview内部焦点切换
-            super.addFocusables(views, direction, focusableMode);
-        } else {
-            //将当前的view放到Focusable views列表中，再次移入焦点时会取到该view,实现焦点记忆功能
-            views.add(getLayoutManager().findViewByPosition(mLastFocusPosition));
-            Loger.i("views.add(lastFocusView)");
-        }
     }
 
     @Override
@@ -175,6 +154,14 @@ public class TvRecyclerView extends RecyclerView {
             mLastFocusPosition = getChildViewHolder(child).getAdapterPosition();
             Loger.i("focusPos = " + mLastFocusPosition);
         }
+    }
+
+    @Override
+    public boolean requestFocus(int direction, Rect previouslyFocusedRect) {
+        View lastFocusedItem = getLayoutManager().findViewByPosition(mLastFocusPosition);
+        lastFocusedItem.requestFocus();
+        return false;
+
     }
 
     /**
