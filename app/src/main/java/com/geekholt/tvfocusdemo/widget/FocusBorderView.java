@@ -42,6 +42,8 @@ public class FocusBorderView extends FrameLayout {
     //borderview高度
     private float borderWidth;
 
+    private ViewTreeObserver.OnGlobalFocusChangeListener onGlobalFocusChangeListener;
+
     public FocusBorderView(Context context) {
         this(context, null);
     }
@@ -65,7 +67,13 @@ public class FocusBorderView extends FrameLayout {
         setFocusable(true);
         addFocusBorder();
         animator = new FocusValueAnimator(this);
-        getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        onGlobalFocusChangeListener = new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
                 if (isFocused()) {
@@ -79,10 +87,16 @@ public class FocusBorderView extends FrameLayout {
                     focusLeave();
                 }
             }
-        });
-
+        };
+        getViewTreeObserver().addOnGlobalFocusChangeListener(onGlobalFocusChangeListener);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        animator.cancel();
+        getViewTreeObserver().removeOnGlobalFocusChangeListener(onGlobalFocusChangeListener);
+    }
 
     /**
      * 布局完之后，设置用户自定义的xml中的viewGroup与borderview的间距
@@ -134,13 +148,6 @@ public class FocusBorderView extends FrameLayout {
         }
         return realNextFocus;
     }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        animator.cancel();
-    }
-
 
     /**
      * 聚焦到指定的view
