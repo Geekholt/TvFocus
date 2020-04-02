@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IdRes;
 import android.util.AttributeSet;
 import android.view.FocusFinder;
 import android.view.Gravity;
@@ -145,7 +144,7 @@ public class FocusBorderView extends FrameLayout {
     /**
      * 聚焦到指定的view
      */
-    private void focusSpecifiedView(@IdRes int viewId) {
+    private void focusSpecifiedView(int viewId) {
         View specifedView = null;
         if (customRootView != null) {
             specifedView = customRootView.findViewById(viewId);
